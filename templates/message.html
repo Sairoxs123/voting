@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <h1>
+            Form was not filled completely.
+        </h1>
+    </center>
+
+    <h2>This place will be redirected automatically in <span>5</span> seconds.</h2>
+
+
+<script>
+window.onload = load();
+
+function load() {
+    let time = 4;
+    for (let count = 0; count < 1; count++){
+        setInterval(() => {
+            document.querySelector("span").innerHTML = time;
+            time--;
+            if (time == 0){
+                window.open("{% url 'form' %}", "_self");
+            }
+        }, 1000);
+    }
+}
+</script>
+</body>
+</html>
