@@ -11,3 +11,10 @@ class ContestantsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'position']
     list_filter = ['position']
 
+
+@admin.register(Votes)
+
+class VotesAdmin(admin.ModelAdmin):
+    ordering = ["id"]
+    list_display = ["id", "jssid"]
+

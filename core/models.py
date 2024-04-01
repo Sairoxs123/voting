@@ -13,3 +13,7 @@ class Contestants(models.Model):
     def __str__(self):
         return self.name
 
+class Votes(models.Model):
+    id = models.IntegerField(primary_key=True, blank=False, null=False, unique=True)
+    jssid = models.CharField("JSSID", blank=False, null=False, max_length=10)
+

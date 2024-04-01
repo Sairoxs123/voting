@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Contestants
+from .models import Contestants, Votes
 import os
 
 # Create your views here.
@@ -129,12 +129,33 @@ def submitVote(request):
         dheadgirl = request.POST.get("dheadgirl")
         dsportsboy = request.POST.get("dsportsboy")
         dsportsgirl = request.POST.get("dsportsgirl")
+        jssid = request.POST.get("jssid").upper()
 
-        if not headboy or not headgirl or not sportsboy or not sportsgirl or not dheadboy or not dheadgirl or not dsportsboy or not dsportsgirl:
+        letters = 0
+        numbers = 0
+
+        for i in jssid:
+            if i.isdigit():
+                numbers += 1
+
+            elif i.isalpha():
+                letters += 1
+
+        if letters != 1 and numbers != 4:
+            return render(request, "message.html", {"error":"jssid"})
+
+        if not headboy or not headgirl or not sportsboy or not sportsgirl or not dheadboy or not dheadgirl or not dsportsboy or not dsportsgirl or not jssid:
             return render(request, "message.html")
 
         if not request.session.get("open"):
             return render(request, "message.html", {"error":"closed"})
+
+        try:
+            x = Votes.objects.get(jssid=jssid)
+            return render(request, "message.html", {"error":"done"})
+
+        except:
+            pass
 
         headboyinst = Contestants.objects.get(name=headboy)
         headgirlinst = Contestants.objects.get(name=headgirl)
@@ -144,6 +165,8 @@ def submitVote(request):
         dheadgirlinst = Contestants.objects.get(name=dheadgirl)
         dsportsboyinst = Contestants.objects.get(name=dsportsboy)
         dsportsgirlinst = Contestants.objects.get(name=dsportsgirl)
+
+        Votes(jssid=jssid).save()
 
         headboyinst.votes += 1
         headgirlinst.votes += 1

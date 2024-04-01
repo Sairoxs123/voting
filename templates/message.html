@@ -8,8 +8,12 @@
 <body>
     <center>
         <h1>
-            {% if error %}
+            {% if error == "closed" %}
                 Voting system has been closed. Please try again later.
+            {% elif error == "done" %}
+                You have already voted.
+            {% elif error == "jssid" %}
+                JSSID is not valid.
             {% else %}
                 Form was not filled completely.
             {% endif %}
