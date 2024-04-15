@@ -11,10 +11,24 @@ class ContestantsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'position']
     list_filter = ['position']
 
+@admin.register(Students)
+
+class StudentAdmin(admin.ModelAdmin):
+    ordering = ["id"]
+    list_display = ["id", "jssid", "name", "grade_sec"]
+    search_fields = ["jssid", "name"]
+    list_filter = ["grade_sec"]
 
 @admin.register(Votes)
 
 class VotesAdmin(admin.ModelAdmin):
     ordering = ["id"]
-    list_display = ["id", "jssid"]
+    list_display = ["id", "student", "contestant"]
 
+
+@admin.register(History)
+
+class HistoryAdmin(admin.ModelAdmin):
+    ordering = ["id"]
+    list_display = ["id", "jssid", "student_name", "contestant_name", "position"]
+    list_filter = ["date"]

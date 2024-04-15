@@ -1,5 +1,6 @@
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, redirect
-from .models import Contestants, Votes
+from .models import *
 import os
 
 # Create your views here.
@@ -130,6 +131,7 @@ def submitVote(request):
         dsportsboy = request.POST.get("dsportsboy")
         dsportsgirl = request.POST.get("dsportsgirl")
         jssid = request.POST.get("jssid").upper()
+        date = request.POST.get("date")
 
         letters = 0
         numbers = 0
@@ -138,10 +140,18 @@ def submitVote(request):
             if i.isdigit():
                 numbers += 1
 
-            elif i.isalpha():
+            if i.isalpha():
                 letters += 1
 
-        if letters != 1 and numbers != 4:
+        jssid = "JSSPS" + jssid
+
+        if letters != 1 or numbers != 4:
+            return render(request, "message.html", {"error":"jssid"})
+
+        try:
+            student = Students.objects.get(jssid=jssid)
+
+        except:
             return render(request, "message.html", {"error":"jssid"})
 
         if not headboy or not headgirl or not sportsboy or not sportsgirl or not dheadboy or not dheadgirl or not dsportsboy or not dsportsgirl or not jssid:
@@ -151,40 +161,23 @@ def submitVote(request):
             return render(request, "message.html", {"error":"closed"})
 
         try:
-            x = Votes.objects.get(jssid=jssid)
+            x = Votes.objects.get(student=student)
             return render(request, "message.html", {"error":"done"})
 
         except:
             pass
 
-        headboyinst = Contestants.objects.get(name=headboy)
-        headgirlinst = Contestants.objects.get(name=headgirl)
-        sportsboyinst = Contestants.objects.get(name=sportsboy)
-        sportsgirlinst = Contestants.objects.get(name=sportsgirl)
-        dheadboyinst = Contestants.objects.get(name=dheadboy)
-        dheadgirlinst = Contestants.objects.get(name=dheadgirl)
-        dsportsboyinst = Contestants.objects.get(name=dsportsboy)
-        dsportsgirlinst = Contestants.objects.get(name=dsportsgirl)
+        positions = [headboy, headgirl, sportsboy, sportsgirl, dheadboy, dheadgirl, dsportsboy, dsportsgirl]
 
-        Votes(jssid=jssid).save()
+        for i in positions:
+            inst = Contestants.objects.get(name=i)
+            Votes(student=student, contestant=inst).save()
+            inst.votes += 1
+            inst.save()
 
-        headboyinst.votes += 1
-        headgirlinst.votes += 1
-        sportsboyinst.votes += 1
-        sportsgirlinst.votes += 1
-        dheadboyinst.votes += 1
-        dheadgirlinst.votes += 1
-        dsportsboyinst.votes += 1
-        dsportsgirlinst.votes += 1
+            from datetime import date
 
-        headboyinst.save()
-        headgirlinst.save()
-        sportsboyinst.save()
-        sportsgirlinst.save()
-        dheadboyinst.save()
-        dheadgirlinst.save()
-        dsportsboyinst.save()
-        dsportsgirlinst.save()
+            History(jssid=student.jssid, student_name=student.name, contestant_name=inst.name, position=inst.position, date=date.today()).save()
 
         return render(request, "thank you.html")
 
@@ -215,6 +208,71 @@ def deleteAll(request):
             i.delete()
 
         return redirect("/admin")
+
+
+def createCSV(request):
+    votes = Votes.objects.all()
+    import csv
+    import os
+
+    root_dir = os.path.join(os.getcwd(), "assets")
+
+    fh = open(os.path.join(root_dir, "votes.csv"), "w")
+    writer = csv.writer(fh)
+    writer.writerow(["S.No", "Name of student", "JSSID", "Grade", "Name of contestant", "Position"])
+
+    count = 0
+
+    for i in votes:
+        count += 1
+
+        writer.writerow([count, i.student.name, i.student.jssid, i.student.grade_sec,i.contestant.name, i.contestant.position])
+
+
+    return JsonResponse({"created":True})
+
+
+def saveStudentsData(request):
+
+    #precheck = Students.objects.all().delete()
+
+    fh = open("STUDENT- 24-25 CSV.csv", 'r')
+
+    data = fh.readlines()
+
+    grades = {
+        #"junior": [],
+        #"middle": [],
+        "high": []
+    }
+
+    #junior = ["I", "II", "III", "IV", "V"]
+    #middle = ["VI", "VII", "VIII"]
+    high = ["IX", "X", "XI", "XII"]
+
+    for i in data:
+        tokens = i.split(",")
+
+        #if tokens[3] in junior:
+        #    grades["junior"].append(
+        #        {"name":tokens[1], "jssid":tokens[0]}
+        #    )
+    #
+        #if tokens[3] in middle:
+        #    grades["middle"].append(
+        #        {"name":tokens[1], "jssid":tokens[0]}
+        #    )
+
+        if tokens[3] in high:
+            grades["high"].append(
+                {"name":tokens[1], "jssid":tokens[0], "class":tokens[3] + tokens[4]}
+            )
+
+    for i in grades["high"]:
+        Students(name=i["name"], jssid=i["jssid"], grade_sec=i["class"]).save()
+
+    return JsonResponse({"created":True})
+
 
 def openVoting(request):
     request.session["open"] = True

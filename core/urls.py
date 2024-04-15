@@ -14,5 +14,7 @@ urlpatterns = [
     path("delete/all/", deleteAll, name="deleteall"),
     path("open/", openVoting, name="open"),
     path("close/", closeVoting, name="close"),
+    path("student/data/save/", saveStudentsData, name="save-data"),
+    path("vote/data/create-csv/", createCSV, name="create-csv"),
     path("logout/", logout, name="logout")
 ]

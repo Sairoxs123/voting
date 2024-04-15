@@ -13,7 +13,7 @@
             text-align: center;
         }
 
-        #options{
+        #options {
             gap: 10px;
             padding: 20px;
             display: flex;
@@ -21,7 +21,7 @@
             justify-content: space-between;
         }
 
-        button{
+        button {
             flex-grow: 1;
             flex-basis: 200;
             width: 350px;
@@ -33,9 +33,9 @@
 <body>
 
     {% if wrong %}
-        <center>
-            <h1>You have entered the wrong password.</h1>
-        </center>
+    <center>
+        <h1>You have entered the wrong password.</h1>
+    </center>
     {% else %}
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
@@ -59,12 +59,16 @@
     <div id="options">
         <button type="button" onclick="display('headboy')" class="btn btn-secondary btn-lg">Headboy</button>
         <button type="button" onclick="display('headgirl')" class="btn btn-secondary btn-lg">Headgirl</button>
-        <button type="button" onclick="display('sportsboy')" class="btn btn-secondary btn-lg">Sports Captain Boy</button>
-        <button type="button" onclick="display('sportsgirl')" class="btn btn-secondary btn-lg">Sports Captain Girl</button>
+        <button type="button" onclick="display('sportsboy')" class="btn btn-secondary btn-lg">Sports Captain
+            Boy</button>
+        <button type="button" onclick="display('sportsgirl')" class="btn btn-secondary btn-lg">Sports Captain
+            Girl</button>
         <button type="button" onclick="display('dheadboy')" class="btn btn-secondary btn-lg">Deputy Headboy</button>
         <button type="button" onclick="display('dheadgirl')" class="btn btn-secondary btn-lg">Deputy Headgirl</button>
-        <button type="button" onclick="display('dsportsboy')" class="btn btn-secondary btn-lg">Deputy Sports Captain Boy</button>
-        <button type="button" onclick="display('dsportsgirl')" class="btn btn-secondary btn-lg">Deputy Sports Captain Girl</button>
+        <button type="button" onclick="display('dsportsboy')" class="btn btn-secondary btn-lg">Deputy Sports Captain
+            Boy</button>
+        <button type="button" onclick="display('dsportsgirl')" class="btn btn-secondary btn-lg">Deputy Sports Captain
+            Girl</button>
     </div>
 
     <br><br>
@@ -90,14 +94,35 @@
 
         <script>
             const deleteAll = () => {
-                if (confirm("Are you sure you want to delete all the contestants? This action is not reversible.") == true){
+                if (confirm("Are you sure you want to delete all the contestants? This action is not reversible.") == true) {
                     document.getElementById("delete-all").submit();
                 }
             }
 
             const resetAll = () => {
-                if (confirm("Are you sure you want to reset all the votes? This action is not reversible.") == true){
+                if (confirm("Are you sure you want to reset all the votes? This action is not reversible.") == true) {
                     document.getElementById("reset-all").submit();
+                }
+            }
+        </script>
+
+    </div>
+
+    <br><br>
+
+    <div id="CSV" style="margin-left: 1%;">
+        <input type="button" value="Make CSV" class="btn btn-primary" onclick="createCSV()">
+
+        <a href="/assets/votes.csv" download style="display: none;" id="download-link">Download</a>
+
+
+        <script>
+            const createCSV = async () => {
+                console.log("{% url 'create-csv' %}")
+                const request = await fetch("{% url 'create-csv' %}");
+                const response = await request.json()
+                if (response.created) {
+                    document.getElementById("download-link").style.display = "block"
                 }
             }
         </script>
@@ -109,25 +134,25 @@
     <div style="margin-left: 1%;">
         {% if open %}
 
-            <h1>Voting session is open.</h1>
+        <h1>Voting session is open.</h1>
 
-            <form action="{% url 'close' %}" method="post">
-                {% csrf_token %}
+        <form action="{% url 'close' %}" method="post">
+            {% csrf_token %}
 
-                <input type="submit" value="Close Session" class="btn btn-primary">
+            <input type="submit" value="Close Session" class="btn btn-primary">
 
-            </form>
+        </form>
 
         {% else %}
 
-            <h1>Voting session is closed.</h1>
+        <h1>Voting session is closed.</h1>
 
-            <form action="{% url 'open' %}" method="post">
-                {% csrf_token %}
+        <form action="{% url 'open' %}" method="post">
+            {% csrf_token %}
 
-                <input type="submit" value="Open Session" class="btn btn-primary">
+            <input type="submit" value="Open Session" class="btn btn-primary">
 
-            </form>
+        </form>
 
         {% endif %}
     </div>
