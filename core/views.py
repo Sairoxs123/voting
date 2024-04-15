@@ -234,7 +234,7 @@ def createCSV(request):
 
 def saveStudentsData(request):
 
-    #precheck = Students.objects.all().delete()
+    precheck = Students.objects.all().delete()
 
     fh = open("STUDENT- 24-25 CSV.csv", 'r')
 
