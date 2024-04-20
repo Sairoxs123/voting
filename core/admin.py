@@ -30,5 +30,5 @@ class VotesAdmin(admin.ModelAdmin):
 
 class HistoryAdmin(admin.ModelAdmin):
     ordering = ["id"]
-    list_display = ["id", "jssid", "student_name", "contestant_name", "position"]
+    list_display = ["id", "jssid", "student_name", "contestant_name", "position", "date"]
     list_filter = ["date"]

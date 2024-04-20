@@ -160,12 +160,10 @@ def submitVote(request):
         if not request.session.get("open"):
             return render(request, "message.html", {"error":"closed"})
 
-        try:
-            x = Votes.objects.get(student=student)
-            return render(request, "message.html", {"error":"done"})
+        x = Votes.objects.all().filter(student=student)
 
-        except:
-            pass
+        if len(x) > 0:
+            return render(request, "message.html", {"error":"done"})
 
         positions = [headboy, headgirl, sportsboy, sportsgirl, dheadboy, dheadgirl, dsportsboy, dsportsgirl]
 
@@ -192,6 +190,8 @@ def resetVotes(request):
             i.votes = 0
             i.save()
 
+        Votes.objects.all().delete()
+
         return redirect("/admin")
 
     return redirect("/admin")
@@ -212,31 +212,51 @@ def deleteAll(request):
 
 def createCSV(request):
     votes = Votes.objects.all()
-    import csv
     import os
 
     root_dir = os.path.join(os.getcwd(), "assets")
 
     fh = open(os.path.join(root_dir, "votes.csv"), "w")
-    writer = csv.writer(fh)
-    writer.writerow(["S.No", "Name of student", "JSSID", "Grade", "Name of contestant", "Position"])
+    data = "S.No, Name of student, JSSID, Grade, Name of contestant, Position\n"
+    #fh.write("S.No, Name of student, JSSID, Grade, Name of contestant, Position\n")
 
     count = 0
 
     for i in votes:
         count += 1
+        data += f"{count}, {i.student.name}, {i.student.jssid}, {i.student.grade_sec.strip()}, {i.contestant.name}, {i.contestant.position}\n"
+        #fh.write(line)
 
-        writer.writerow([count, i.student.name, i.student.jssid, i.student.grade_sec,i.contestant.name, i.contestant.position])
+    fh.write(data)
+    fh.close()
 
+
+    fh = open(os.path.join(root_dir, "results.csv"), "w")
+    data = "S.No, Name of contestant, Position, No. of votes\n"
+    #fh.write("S.No, Name of contestant, Position, No. of votes\n")
+
+    count = 0
+
+    contestants = Contestants.objects.all()
+
+    for i in contestants:
+
+        count += 1
+
+        data += f"{count}, {i.name}, {i.position}, {i.votes}\n"
+
+    fh.write(data)
+
+    fh.close()
 
     return JsonResponse({"created":True})
 
 
 def saveStudentsData(request):
 
-    precheck = Students.objects.all().delete()
+    Students.objects.all().delete()
 
-    fh = open("STUDENT- 24-25 CSV.csv", 'r')
+    fh = open("STUDENT DATA.csv", 'r')
 
     data = fh.readlines()
 
@@ -270,6 +290,8 @@ def saveStudentsData(request):
 
     for i in grades["high"]:
         Students(name=i["name"], jssid=i["jssid"], grade_sec=i["class"]).save()
+
+    fh.close()
 
     return JsonResponse({"created":True})
 

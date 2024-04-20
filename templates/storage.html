@@ -9,9 +9,13 @@
         rel="icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
+
+        *{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
         body {
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://www.yallaschools.com/uploads/JSS_Pvt_School.jpg);
-            height: 100vh;
             background-size: cover;
             background-position: center;
             height: 95%;
@@ -23,13 +27,25 @@
             top: 0;
             left: 0;
             position: absolute;
-            font-size: 40px;
-            font-weight: 900;
-            color: black;
-            background-color: orange;
-            padding: 5px 5px 5px 5px;
-            margin: 0.5%;
-            border-radius: 22px;
+            background-image: linear-gradient(to right, #2c3e50 0%, #3498db 51%, #2c3e50 100%);
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+            font-size: 2em;
+        }
+
+        #homelink:hover {
+            background-position: right center;
+            /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
         }
 
         .container {
@@ -38,14 +54,29 @@
         }
 
         .big-box {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(https://w0.peakpx.com/wallpaper/506/235/HD-wallpaper-white-hexagon-geometric-shapes-white-aesthetic.jpg);
-            background-size: cover;
-            background-position: center;
+            /*background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(https://w0.peakpx.com/wallpaper/506/235/HD-wallpaper-white-hexagon-geometric-shapes-white-aesthetic.jpg);*/
+            --s: 30px;
+            --c: #191b22;
+            --_s: calc(2*var(--s)) calc(2*var(--s));
+            --_g: 35.36% 35.36% at;
+            --_c: #0000 66%, #20222a 68% 70%, #0000 100%;
+            background:
+                radial-gradient(var(--_g) 100% 25%, var(--_c)) var(--s) var(--s)/var(--_s),
+                radial-gradient(var(--_g) 0 75%, var(--_c)) var(--s) var(--s)/var(--_s),
+                radial-gradient(var(--_g) 100% 25%, var(--_c)) 0 0/var(--_s),
+                radial-gradient(var(--_g) 0 75%, var(--_c)) 0 0/var(--_s),
+                repeating-conic-gradient(var(--c) 0 25%, #0000 0 50%) 0 0/var(--_s),
+                radial-gradient(var(--_c)) 0 calc(var(--s)/2)/var(--s) var(--s) var(--c);
+            background-attachment: fixed;
+            /*background-size: cover;
+            background-position: center;*/
             padding: 20px;
             max-width: 87%;
             height: 60%;
             margin: 0 auto;
             margin-top: 3%;
+            border-radius: 10px;
+            box-shadow: 7.5px 10px #888888;
         }
 
         #confirmation {
@@ -119,11 +150,6 @@
             /* Some padding */
         }
 
-        .picture-box:hover .caption {
-            opacity: 1;
-            width: 91%;
-        }
-
         .picture-box .caption h3 {
             margin: 0;
             font-size: 24px;
@@ -141,19 +167,28 @@
             margin-top: 1%;
             float: left;
             padding: 0.15%;
-            background-color: black;
         }
 
         .previous button {
-            font-size: 16px;
-            font-weight: bold;
-            padding: 10px 20px;
-            background-color: #333;
-            color: black;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            background-color: white;
+            background-image: linear-gradient(to right, #EB3349 0%, #F45C43 51%, #EB3349 100%);
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+            font-size: 2em;
+        }
+
+        .previous button:hover {
+            background-position: right center;
+            /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
         }
 
         .next {
@@ -163,22 +198,32 @@
             margin-top: 1%;
             float: right;
             padding: 0.15%;
-            background-color: black;
         }
 
         .next button {
-            background-color: white;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 10px 20px;
-            color: black;
-            border: none;
-            cursor: pointer;
-            width: 100%;
+            background-image: linear-gradient(to right, #1D976C 0%, #93F9B9 51%, #1D976C 100%);
+            margin: 10px;
+            padding: 15px 45px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            display: block;
+            font-size: 2em;
+        }
+
+        .next button:hover {
+            background-position: right center;
+            /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
         }
 
         #selected {
-            outline: green solid 5px;
+            outline: green solid 10px;
             transition: linear 50ms;
         }
 
@@ -215,21 +260,42 @@
 
         td {
             text-align: center;
-            font-size: 25px;
+            font-size: 30px;
             font-weight: 900;
             color: red;
         }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .post {
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3498db, #e74c3c, #2ecc71, #f39c12);
+            animation: gradientBG 1s ease-in infinite;
+        }
+
     </style>
 </head>
 
-<body oncontextmenu="return false">
+<body oncontextmenu="return false" onkeydown="return event.key != 'Enter';">
     <div id="main">
         <form action="{% url 'submit' %}" method="post" id="vote"> {% csrf_token %} </form> <a href="{% url 'home' %}"
-            id="homelink">Home</a>
+            id="homelink" class="btn btn-primary">Home</a>
         <div class="container" style="width: 100%;">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                    style="width:0%" id="line"> </div>
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="70"
+                    aria-valuemin="0" aria-valuemax="100" style="width:0%" id="line"> </div>
             </div>
         </div>
         <center>
@@ -239,9 +305,9 @@
     <div id="jssid">
         <div class="big-box" style="align-items: center; display: flex; justify-content: center;">
             <div>
-                <div> <span style="font-size: 4em;">Enter your JSSID:</span> </div> <br>
+                <div> <span style="font-size: 4em;color: white;">Enter your JSSID:</span> </div> <br>
                 <div style="display: flex; justify-content: center; align-items: center;"> <span
-                        style="font-size: 3em;">JSSPS</span> <input type="text" id="jssid-input" name="jssid"
+                        style="font-size: 3em; color: white;">JSSPS</span> <input type="text" id="jssid-input" name="jssid"
                         form="vote" placeholder="Ex: A0089" style="font-size: 3em; max-width: 300px;"> </div>
             </div>
         </div> <br>
@@ -252,7 +318,7 @@
         <div class="big-box" onchange="check_headboy()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:400px; padding-right: 400px;">
+                    style="color:black; font-size:40px; font-weight: bold; padding: 5px; padding-left:400px; padding-right: 400px;" class="post">
                     Head Boy</font>
             </center>
             <div class="picture-box-container"> {% for i in headboys %} <div class="picture-box"> <input form="vote"
@@ -271,7 +337,7 @@
         <div class="big-box" onchange="check_headgirl()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:400px; padding-right: 400px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:400px; padding-right: 400px;" class="post">
                     Head Girl</font>
             </center>
             <div class="picture-box-container"> {% for i in headgirls %} <div class="picture-box"> <input form="vote"
@@ -290,7 +356,7 @@
         <div class="big-box" onchange="check_sportsboy()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:300px; padding-right: 300px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:300px; padding-right: 300px;" class="post">
                     Sports Captain Boy</font>
             </center>
             <div class="picture-box-container"> {% for i in sportsboys %} <div class="picture-box"> <input form="vote"
@@ -310,7 +376,7 @@
         <div class="big-box" onchange="check_sportsgirl()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:300px; padding-right: 300px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:300px; padding-right: 300px;" class="post">
                     Sports Captain Girl</font>
             </center>
             <div class="picture-box-container"> {% for i in sportsgirls %} <div class="picture-box"> <input form="vote"
@@ -330,7 +396,7 @@
         <div class="big-box" onchange="check_dheadboy()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:320px; padding-right: 320px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:320px; padding-right: 320px;" class="post">
                     Deputy Head Boy</font>
             </center>
             <div class="picture-box-container"> {% for i in dheadboys %} <div class="picture-box"> <input form="vote"
@@ -350,7 +416,7 @@
         <div class="big-box" onchange="check_dheadgirl()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:320px; padding-right: 320px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:320px; padding-right: 320px;" class="post">
                     Deputy Head Girl</font>
             </center>
             <div class="picture-box-container"> {% for i in dheadgirls %} <div class="picture-box"> <input form="vote"
@@ -370,7 +436,7 @@
         <div class="big-box" onchange="check_dsportsboy()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:250px; padding-right: 250px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:250px; padding-right: 250px;" class="post">
                     Deputy Sports Captain Boys</font>
             </center>
             <div class="picture-box-container"> {% for i in dsportsboys %} <div class="picture-box"> <input form="vote"
@@ -390,7 +456,7 @@
         <div class="big-box" onchange="check_dsportsgirl()">
             <center>
                 <font
-                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:250px; padding-right: 250px;">
+                    style="color:black; font-size:40px; font-weight: bold; background-color: #E1F2F5; padding: 5px; padding-left:250px; padding-right: 250px;" class="post">
                     Deputy Sports Captain Girls</font>
             </center>
             <div class="picture-box-container"> {% for i in dsportsgirls %} <div class="picture-box"> <input form="vote"

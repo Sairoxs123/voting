@@ -113,16 +113,36 @@
     <div id="CSV" style="margin-left: 1%;">
         <input type="button" value="Make CSV" class="btn btn-primary" onclick="createCSV()">
 
-        <a href="/assets/votes.csv" download style="display: none;" id="download-link">Download</a>
+        <a href="/assets/votes.csv" download style="display: none;" id="download-votes">Download Votes</a>
+        <a href="/assets/results.csv" download style="display: none;" id="download-results">Download Voting Results</a>
 
 
         <script>
             const createCSV = async () => {
-                console.log("{% url 'create-csv' %}")
                 const request = await fetch("{% url 'create-csv' %}");
                 const response = await request.json()
                 if (response.created) {
-                    document.getElementById("download-link").style.display = "block"
+                    document.getElementById("download-votes").style.display = "block"
+                    document.getElementById("download-results").style.display = "block"
+                }
+            }
+        </script>
+
+    </div>
+
+    <br><br>
+
+    <div id="save-data" style="margin-left: 1%;">
+        <input type="button" value="Save Student Data" class="btn btn-danger" onclick="saveData()">
+
+        <script>
+            const saveData = async () => {
+                if (confirm("Warning. This will rewrite existing data and it is not reversible.") == true) {
+                    const request = await fetch("{% url 'save-data' %}")
+                    const response = await request.json()
+                    if (response.created) {
+                        alert("Students data has been saved.")
+                    }
                 }
             }
         </script>
@@ -175,7 +195,7 @@
                 <td>{{ i.name }}</td>
                 <td>
                     <a href="{{ i.photo.url }}" target="_blank">
-                        <img src="{{ i.photo.url }}" height="56" width="56">
+                        <img src="{{ i.photo.url }}" height="100" width="100">
                     </a>
                 </td>
                 <td>{{i.position}}</td>
